@@ -1,4 +1,5 @@
 ﻿using DAL.Interfaces.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DAL.Interfaces
@@ -9,8 +10,8 @@ namespace DAL.Interfaces
 
         Task<DataAccessCategory> GetCategoryByIdAsync(int categoryId);
 
-        Task<DataAccessCategory> GetAllCategoriesAsync();
+        Task<List<DataAccessCategory>> GetAllCategoriesAsync();
 
-        Task<DataAccessCategory> GetAllCategoryProductsAsync(int categoryId);
+        Task<List<DataAccessProduct>> GetAllCategoryProductsAsync(int categoryId);
     }
 }
