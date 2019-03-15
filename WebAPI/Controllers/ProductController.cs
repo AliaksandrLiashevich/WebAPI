@@ -6,6 +6,7 @@ using BLL.Interfaces.Models;
 
 namespace WebAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/products")]
     [ApiController]
     public class ProductController : Controller

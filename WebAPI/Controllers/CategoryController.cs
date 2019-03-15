@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/categories")]
     [ApiController]
     public class CategoryController : Controller
@@ -24,9 +25,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id:int:min(1)}")]
-        public async Task<Category> GetCategoryByIdAsync(int categoryId)
+        public async Task<Category> GetCategoryByIdAsync(int id)
         {
-            return await _service.GetCategoryByIdAsync(categoryId);
+            return await _service.GetCategoryByIdAsync(id);
         }
 
         [HttpGet]
@@ -35,7 +36,7 @@ namespace WebAPI.Controllers
             return await _service.GetAllCategoriesAsync();
         }
 
-        [HttpGet("{id:int:min(1)}")]
+        [HttpGet("{id:int:min(1)}/products")]
         public async Task<List<Product>> GetAllCategoryProductsAsync(int categoryId)
         {
             return await _service.GetAllCategoryProductsAsync(categoryId);
