@@ -10,7 +10,7 @@ namespace WebAPI.Configurations
         {
             Mapper.Initialize(cfg =>
             {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("WebAPI")).ToArray();
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("BLL")).ToArray();
                 cfg.AddProfiles(assemblies);
             });
         }

@@ -19,9 +19,9 @@ namespace DAL.Repositories
 
         public async Task AddCategoryAsync(DataAccessCategory category)
         {
-            var dbCategory = _context.Categories.Where(c => c.Name == category.Name);
+            var dbCategory = _context.Categories.Where(c => c.Name == category.Name).ToList();
 
-            if (dbCategory != null)
+            if (dbCategory.Count != 0)
             {
                 throw new DatabaseException(DatabaseException.ErrorType.InvalidCategoryName,
                     "One of the categories in database has the same name");
@@ -38,7 +38,7 @@ namespace DAL.Repositories
             {
                 var dbCategory = _context.Categories.Where(c => c.Id == categoryId).ToList();
 
-                if (dbCategory == null)
+                if (dbCategory.Count == 0)
                 {
                     throw new DatabaseException(DatabaseException.ErrorType.InvalidCategoryId,
                         "Category doesn't exist");
@@ -59,7 +59,7 @@ namespace DAL.Repositories
             {
                 var dbCategory = _context.Categories.Where(c => c.Id == categoryId).ToList();
 
-                if (dbCategory == null)
+                if (dbCategory.Count == 0)
                 {
                     throw new DatabaseException(DatabaseException.ErrorType.InvalidCategoryId,
                         "Category doesn't exist");

@@ -17,8 +17,9 @@ namespace BLL
             _repository = repository;
         }
 
-        public async Task AddProductAsync(Product product)
+        public async Task AddProductAsync(CreateProduct product)
         {
+
             var dbProduct = Mapper.Map<DataAccessProduct>(product);
 
             await _repository.AddProductAsync(dbProduct);

@@ -19,9 +19,9 @@ namespace DAL.Repositories
 
         public async Task AddProductAsync(DataAccessProduct product)
         {
-            var dbProduct = _context.Products.Where(p => p.Name == product.Name);
+            var dbProduct = _context.Products.Where(p => p.Name == product.Name).ToList();
 
-            if (dbProduct != null)
+            if (dbProduct.Count != 0)
             {
                 throw new DatabaseException(DatabaseException.ErrorType.InvalidProductName,
                         "One of the products in database has the same name");
@@ -43,7 +43,7 @@ namespace DAL.Repositories
             {
                 var dbProduct = _context.Products.Where(p => p.Id == productId).ToList();
 
-                if (dbProduct == null)
+                if (dbProduct.Count == 0)
                 {
                     throw new DatabaseException(DatabaseException.ErrorType.InvalidCategoryId,
                         "Product doesn't exist");

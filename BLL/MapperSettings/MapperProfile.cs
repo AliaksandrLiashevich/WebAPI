@@ -9,9 +9,13 @@ namespace BLL.MapperSettings
         public MapperProfile()
         {
             CreateMap<DataAccessCategory, Category>();
-            CreateMap<Category, DataAccessCategory>();
             CreateMap<DataAccessProduct, Product>();
-            CreateMap<Product, DataAccessProduct>();
+            CreateMap<CreateCategory, DataAccessCategory>()
+                .ForMember(dc => dc.Id, opt => opt.Ignore())
+                .ForMember(dc => dc.Products, opt => opt.Ignore());
+            CreateMap<CreateProduct, DataAccessProduct>()
+                .ForMember(dp => dp.Id, opt => opt.Ignore())
+                .ForMember(dp => dp.Category, opt => opt.Ignore()); ;
         }
     }
 }

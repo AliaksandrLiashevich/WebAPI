@@ -17,7 +17,7 @@ namespace BLL
             _repository = repository;
         }
 
-        public async Task AddCategoryAsync(Category category)
+        public async Task AddCategoryAsync(CreateCategory category)
         {
             var dbCategory = Mapper.Map<DataAccessCategory>(category);
 
@@ -40,7 +40,7 @@ namespace BLL
 
         public async Task<List<Product>> GetAllCategoryProductsAsync(int categoryId)
         {
-            var dbCategoryProducts = await _repository.GetCategoryByIdAsync(categoryId);
+            var dbCategoryProducts = await _repository.GetAllCategoryProductsAsync(categoryId);
 
             return Mapper.Map<List<Product>>(dbCategoryProducts);
         }

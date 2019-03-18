@@ -6,7 +6,7 @@ namespace BLL.Interfaces
 {
     public interface ICategoryService
     {
-        Task AddCategoryAsync(Category category);
+        Task AddCategoryAsync(CreateCategory category);
 
         Task<Category> GetCategoryByIdAsync(int categoryId);
 

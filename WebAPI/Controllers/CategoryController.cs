@@ -1,7 +1,9 @@
 ﻿using BLL.Interfaces;
 using BLL.Interfaces.Models;
+using DAL.Interfaces.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -19,27 +21,63 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task AddCategoryAsync([FromBody] Category category)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddCategoryAsync([FromBody] CreateCategory category)
         {
-            await _service.AddCategoryAsync(category);
+            try
+            {
+                await _service.AddCategoryAsync(category);
+
+                return NoContent();
+            }
+            catch(DatabaseException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpGet("{id:int:min(1)}")]
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCategoryByIdAsync(int id)
         {
-            return await _service.GetCategoryByIdAsync(id);
+            try
+            {
+                var category = await _service.GetCategoryByIdAsync(id);
+
+                return Ok(category);
+            }
+            catch (DatabaseException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpGet]
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllCategoriesAsync()
         {
-            return await _service.GetAllCategoriesAsync();
+            var categories = await _service.GetAllCategoriesAsync();
+
+            return Ok(categories);
         }
 
         [HttpGet("{id:int:min(1)}/products")]
-        public async Task<List<Product>> GetAllCategoryProductsAsync(int categoryId)
+        [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllCategoryProductsAsync(int id)
         {
-            return await _service.GetAllCategoryProductsAsync(categoryId);
+            try
+            {
+                var products = await _service.GetAllCategoryProductsAsync(id);
+
+                return Ok(products);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
     }
 }

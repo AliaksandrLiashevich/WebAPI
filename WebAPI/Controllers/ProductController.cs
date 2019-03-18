@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.Interfaces;
 using BLL.Interfaces.Models;
+using Microsoft.AspNetCore.Http;
+using DAL.Interfaces.Exceptions;
 
 namespace WebAPI.Controllers
 {
@@ -19,21 +20,46 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task AddProductAsync([FromBody] Product product)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddProductAsync([FromBody] CreateProduct product)
         {
-            await _service.AddProductAsync(product);
+            try
+            {
+                await _service.AddProductAsync(product);
+
+                return NoContent();
+            }
+            catch (DatabaseException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpGet]
-        public async Task<List<Product>> GetAllProductsAsync()
+        [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllProductsAsync()
         {
-            return await _service.GetAllProductsAsync();
+            var products = await _service.GetAllProductsAsync();
+
+            return Ok(products);
         }
 
         [HttpGet("{id:int:min(1)}")]
-        public async Task<Product> GetProductByIdAsync(int id)
+        [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetProductByIdAsync(int id)
         {
-            return await _service.GetProductByIdAsync(id);
+            try
+            {
+                var product = await _service.GetProductByIdAsync(id);
+
+                return Ok(product);
+            }
+            catch (DatabaseException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
     }
 }

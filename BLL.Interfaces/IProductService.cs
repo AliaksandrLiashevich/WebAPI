@@ -6,7 +6,7 @@ namespace BLL.Interfaces
 {
     public interface IProductService
     {
-        Task AddProductAsync(Product product);
+        Task AddProductAsync(CreateProduct product);
 
         Task<Product> GetProductByIdAsync(int productId);
 
