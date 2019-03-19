@@ -5,6 +5,7 @@ using DAL.Context;
 using DAL.Interfaces;
 using DAL.Interfaces.Entities;
 using DAL.Interfaces.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -57,7 +58,8 @@ namespace DAL.Repositories
         {
             return await Task.Run(() =>
             {
-                var dbCategory = _context.Categories.Where(c => c.Id == categoryId).ToList();
+                var dbCategories = _context.Categories.Include("Products");
+                var dbCategory = dbCategories.Where(c => c.Id == categoryId).ToList();
 
                 if (dbCategory.Count == 0)
                 {
@@ -67,6 +69,21 @@ namespace DAL.Repositories
 
                 return dbCategory[0].Products.ToList();
             });
+        }
+
+        public async Task DeleteCategoryAsync(int categoryId)
+        {
+            var dbCategory = _context.Categories.Where(c => c.Id == categoryId).ToList();
+
+            if (dbCategory.Count == 0)
+            {
+                throw new DatabaseException(DatabaseException.ErrorType.InvalidCategoryId,
+                    "Category doesn't exist");
+            }
+
+            _context.Categories.Remove(dbCategory[0]);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

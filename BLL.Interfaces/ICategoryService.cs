@@ -13,5 +13,7 @@ namespace BLL.Interfaces
         Task<List<Category>> GetAllCategoriesAsync();
 
         Task<List<Product>> GetAllCategoryProductsAsync(int categoryId);
+
+        Task DeleteCategoryAsync(int categoryId);
     }
 }

@@ -61,5 +61,22 @@ namespace WebAPI.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
+        [HttpDelete("{id:int:min(1)}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteProductAsync(int id)
+        {
+            try
+            {
+                await _service.DeleteProductAsync(id);
+
+                return NoContent();
+            }
+            catch (DatabaseException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
     }
 }

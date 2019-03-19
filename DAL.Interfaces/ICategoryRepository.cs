@@ -13,5 +13,7 @@ namespace DAL.Interfaces
         Task<List<DataAccessCategory>> GetAllCategoriesAsync();
 
         Task<List<DataAccessProduct>> GetAllCategoryProductsAsync(int categoryId);
+
+        Task DeleteCategoryAsync(int categoryId);
     }
 }

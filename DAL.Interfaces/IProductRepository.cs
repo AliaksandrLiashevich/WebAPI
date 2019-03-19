@@ -11,5 +11,7 @@ namespace DAL.Interfaces
         Task<DataAccessProduct> GetProductByIdAsync(int productId);
 
         Task<List<DataAccessProduct>> GetAllProductsAsync();
+
+        Task DeleteProductAsync(int productId);
     }
 }

@@ -19,10 +19,14 @@ namespace BLL
 
         public async Task AddProductAsync(CreateProduct product)
         {
-
             var dbProduct = Mapper.Map<DataAccessProduct>(product);
 
             await _repository.AddProductAsync(dbProduct);
+        }
+
+        public async Task DeleteProductAsync(int productId)
+        {
+            await _repository.DeleteProductAsync(productId);            
         }
 
         public async Task<List<Product>> GetAllProductsAsync()

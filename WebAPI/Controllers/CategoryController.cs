@@ -74,7 +74,24 @@ namespace WebAPI.Controllers
 
                 return Ok(products);
             }
-            catch (Exception exception)
+            catch (DatabaseException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpDelete("{id:int:min(1)}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteCategoryAsync(int id)
+        {
+            try
+            {
+                await _service.DeleteCategoryAsync(id);
+
+                return NoContent();
+            }
+            catch (DatabaseException exception)
             {
                 return BadRequest(exception.Message);
             }

@@ -52,5 +52,20 @@ namespace DAL.Repositories
                 return dbProduct[0];
             });
         }
+
+        public async Task DeleteProductAsync(int productId)
+        {
+            var dbProduct = _context.Products.Where(p => p.Id == productId).ToList();
+
+            if (dbProduct.Count == 0)
+            {
+                throw new DatabaseException(DatabaseException.ErrorType.InvalidCategoryId,
+                    "Product doesn't exist");
+            }
+
+            _context.Products.Remove(dbProduct[0]);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

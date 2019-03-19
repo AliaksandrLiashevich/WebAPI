@@ -44,5 +44,10 @@ namespace BLL
 
             return Mapper.Map<List<Product>>(dbCategoryProducts);
         }
+
+        public async Task DeleteCategoryAsync(int categoryId)
+        {
+            await _repository.DeleteCategoryAsync(categoryId);
+        }
     }
 }
